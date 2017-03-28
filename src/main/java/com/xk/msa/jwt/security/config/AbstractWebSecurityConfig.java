@@ -27,7 +27,7 @@ import com.xk.msa.jwt.security.auth.jwt.extractor.TokenExtractor;
  *
  */
 public abstract class AbstractWebSecurityConfig extends WebSecurityConfigurerAdapter {
-    public static final String JWT_TOKEN_HEADER_PARAM = "XK-Autho1.0.0";
+//    public static final String JWT_TOKEN_HEADER_PARAM = "XK-Autho1.0.0";
     @Value("${com.xk.msa.security.jwt.tokenFormBasedLoginEntryPoint}")
     public  String FORM_BASED_LOGIN_ENTRY_POINT;// = "/api/xkauth/login";
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/**";

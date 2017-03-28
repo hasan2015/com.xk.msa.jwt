@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -19,6 +18,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 //import com.xk.msa.ca.security.config.WebSecurityConfig;
 import com.xk.msa.jwt.security.auth.JwtAuthenticationToken;
+import com.xk.msa.jwt.security.auth.JwtConstant;
 import com.xk.msa.jwt.security.auth.jwt.extractor.TokenExtractor;
 import com.xk.msa.jwt.security.model.token.RawAccessJwtToken;
  
@@ -31,8 +31,6 @@ import com.xk.msa.jwt.security.model.token.RawAccessJwtToken;
 public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 	private final AuthenticationFailureHandler failureHandler;
 	private final TokenExtractor tokenExtractor;
-	@Value("${com.xk.msa.security.jwt.tokenHeader}")
-    private String JWT_TOKEN_HEADER_PARAM;
 	@Autowired
 	public JwtTokenAuthenticationProcessingFilter(AuthenticationFailureHandler failureHandler,
 			TokenExtractor tokenExtractor, RequestMatcher matcher) {
@@ -47,7 +45,7 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-		String tokenPayload = request.getHeader(JWT_TOKEN_HEADER_PARAM);
+		String tokenPayload = request.getHeader(JwtConstant.JWT_TOKEN_HEADER_PARAM);
 		RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));
 		//调用成功或失败策略基于由JwtAuthenticationProvider执行身份验证过程的结果
 		return getAuthenticationManager().authenticate(new JwtAuthenticationToken(token));
